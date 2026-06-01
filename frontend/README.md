@@ -169,3 +169,15 @@ Durante este proyecto se utilizó SQL puro para comprender los fundamentos de Po
 ## Conclusión
 
 SQL puro sigue siendo fundamental para comprender el funcionamiento interno de una base de datos relacional. Sin embargo, Drizzle ORM ofrece una capa de abstracción moderna y tipada que facilita el desarrollo de aplicaciones escalables, reduce errores y mejora la experiencia de desarrollo en proyectos basados en TypeScript.
+
+Autor
+
+Iván Ezequiel Bussio Scavarelli
+Estudiante de Administración de Sistemas Informáticos en Red (ASIR)
+
+Proyecto: Learning Inventory
+Fecha de entrega: 1 de junio de 2026
+
+⸻
+
+© 2026 Iván Ezequiel Bussio Scavarelli. Proyecto desarrollado con fines académicos.
