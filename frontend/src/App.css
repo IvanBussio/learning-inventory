@@ -62,9 +62,7 @@ body {
   font-weight: 800;
 }
 
-.title {
-  color: red !important;
-}
+
 .subtitle {
   text-align: center;
   color: var(--secondary);
@@ -73,7 +71,7 @@ body {
   font-size: 1.1rem;
 }
 
-/* MODO CLARO */
+
 
 /* MODO CLARO */
 
