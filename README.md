@@ -1,105 +1,171 @@
 # Learning Inventory
 
-Proyecto de práctica full stack utilizando PostgreSQL y Neon como base de datos serverless.
+## Descripción
+
+Learning Inventory es una aplicación desarrollada para aprender los fundamentos de bases de datos relacionales utilizando PostgreSQL en Neon, una API REST construida con Express y un frontend desarrollado con React y Vite.
+
+El proyecto permite gestionar productos y categorías almacenados en una base de datos PostgreSQL, consultándolos desde una aplicación web mediante una API.
+
+---
 
 ## Tecnologías utilizadas
 
+### Base de datos
 - PostgreSQL
 - Neon
-- SQL
-- Git & GitHub
-- VS Code
+
+### Backend
+- Node.js
+- Express
+- @neondatabase/serverless
+- dotenv
+- cors
+
+### Frontend
+- React
+- Vite
+
+### Control de versiones
+- Git
+- GitHub
+
+### Despliegue
+- Vercel
+
+---
 
 ## Estructura del proyecto
 
-```bash
-learning-inventory/
-│
-├── sql/
-│   ├── schema.sql
-│   └── seed.sql
-│
-├── docs/
-│
-├── backend/
-│
-├── frontend/
-│
-└── README.md
-```
+text learning-inventory/ │ ├── backend/ │   ├── lib/ │   │   └── db.js │   ├── server.js │   ├── package.json │   └── .env │ ├── frontend/ │   ├── src/ │   ├── public/ │   ├── package.json │   └── vite.config.js │ ├── docs/ │   ├── arquitectura-datos.md │   ├── analisis-sql.md │   └── seguridad-db.md │ ├── sql/ │   ├── schema.sql │   └── seed.sql │ └── README.md 
 
-## Base de datos
+---
 
-La base de datos fue diseñada siguiendo el modelo relacional.
+## Modelo de datos
 
-### Tablas principales
+### Tabla categories
 
-#### categories
-Almacena las categorías de productos.
+| Campo | Tipo |
+|---------|---------|
+| id | UUID |
+| name | VARCHAR(100) |
+| description | TEXT |
 
-Campos:
-- id
-- name
-- description
+### Tabla products
 
-#### products
-Almacena los productos del inventario.
+| Campo | Tipo |
+|---------|---------|
+| id | UUID |
+| name | VARCHAR(150) |
+| price | NUMERIC(10,2) |
+| stock | INTEGER |
+| category_id | UUID |
 
-Campos:
-- id
-- name
-- price
-- stock
-- category_id
+### Relación
 
-## Relaciones
+- Una categoría puede tener muchos productos.
+- Cada producto pertenece a una categoría.
+- La relación se implementa mediante una Foreign Key.
 
-La tabla `products` está relacionada con `categories`
-mediante una foreign key:
+---
 
-```sql
-category_id REFERENCES categories(id)
-```
+## Funcionalidades implementadas
 
-## Restricciones implementadas
+### Base de datos
 
-- PRIMARY KEY
-- FOREIGN KEY
-- UNIQUE
-- NOT NULL
-- CHECK
+- Creación de tablas.
+- Restricciones de integridad.
+- Claves primarias UUID.
+- Claves foráneas.
+- Inserción de datos.
+- Actualización de datos.
+- Eliminación de datos.
+- Consultas JOIN.
+- Consultas GROUP BY.
 
-Ejemplos:
-- El precio debe ser mayor a 0.
-- El stock no puede ser negativo.
-- El nombre de categoría debe ser único.
+### Backend
+
+#### GET /products
+
+Obtiene todos los productos junto con su categoría.
+
+Ejemplo de respuesta:
+
+json [   {     "id": "82db8221-e8ec-4a5c-a038-39943b6739bb",     "name": "Monitor Gamer",     "price": "299.99",     "stock": 8,     "category": "Hogar"   } ] 
+
+#### POST /products
+
+Permite insertar productos en la base de datos mediante consultas parametrizadas.
+
+---
 
 ## Seguridad
 
-Se utilizó:
+La aplicación utiliza consultas parametrizadas para prevenir ataques de SQL Injection.
 
-```sql
-ON DELETE RESTRICT
-```
+Ejemplo:
 
-para evitar eliminar categorías con productos asociados.
+javascript await sql` INSERT INTO products (   name,   price,   stock,   category_id ) VALUES (   ${name},   ${price},   ${stock},   ${category_id} ) `; 
 
-## Scripts SQL
+Esto evita que los datos enviados por el usuario sean interpretados como código SQL.
 
-### schema.sql
-Contiene la creación de tablas y relaciones.
+---
 
-### seed.sql
-Contiene datos iniciales de prueba.
+## Frontend
 
-## Estado actual
+El frontend fue desarrollado con React y Vite.
 
-- [x] Configuración de Neon
-- [x] Diseño del esquema relacional
-- [x] Creación de tablas
-- [x] Inserción de datos
-- [x] Configuración de Git y GitHub
+Características:
 
-## Autor
+- Consumo de API mediante fetch().
+- Uso de useEffect().
+- Renderizado dinámico de productos.
+- Visualización de datos reales almacenados en PostgreSQL.
 
-Ivan Bussio
+---
+
+## Despliegue
+
+Frontend desplegado en Vercel:
+
+https://learning-inventory-pi.vercel.app/
+
+Repositorio GitHub:
+
+https://github.com/IvanBussio/learning-inventory
+
+---
+
+# Investigación: Drizzle ORM
+
+## ¿Qué es Drizzle ORM?
+
+Drizzle ORM es un ORM moderno para TypeScript que permite trabajar con bases de datos relacionales como PostgreSQL utilizando un esquema tipado. A diferencia de escribir consultas SQL manualmente, Drizzle proporciona seguridad de tipos, autocompletado y validación durante el desarrollo.
+
+## Instalación
+
+bash npm install drizzle-orm npm install postgres npm install -D drizzle-kit 
+
+## Definición del esquema
+
+typescript import { pgTable, uuid, varchar, numeric, integer } from "drizzle-orm/pg-core";  export const products = pgTable("products", {   id: uuid("id").primaryKey(),   name: varchar("name", { length: 150 }).notNull(),   price: numeric("price", { precision: 10, scale: 2 }).notNull(),   stock: integer("stock").default(0), }); 
+
+## Consulta con Drizzle ORM
+
+typescript const result = await db.select().from(products); 
+
+## Ventajas de un ORM tipado
+
+- Autocompletado en el editor.
+- Validación de tipos en tiempo de desarrollo.
+- Menor riesgo de errores en consultas.
+- Mejor mantenibilidad del código.
+- Integración sencilla con TypeScript.
+- Mayor productividad en proyectos grandes.
+
+## Comparación con SQL puro
+
+Durante este proyecto se utilizó SQL puro para comprender los fundamentos de PostgreSQL, relaciones, JOINs, claves foráneas y consultas avanzadas. Sin embargo, en aplicaciones empresariales de mayor tamaño, un ORM como Drizzle puede mejorar la productividad y la seguridad del desarrollo gracias a su sistema de tipos y abstracciones.
+
+## Conclusión
+
+SQL puro sigue siendo fundamental para comprender el funcionamiento interno de una base de datos relacional. Sin embargo, Drizzle ORM ofrece una capa de abstracción moderna y tipada que facilita el desarrollo de aplicaciones escalables, reduce errores y mejora la experiencia de desarrollo en proyectos basados en TypeScript.
