@@ -148,6 +148,19 @@ function App() {
             </tbody>
           </table>
         </div>
+
+        <footer className="footer">
+          <h3>Learning Inventory</h3>
+
+          <p>
+            Developed by Iván Ezequiel Bussio Scavarelli
+          </p>
+
+          <p>
+            ASIR Final Project · June 2026
+          </p>
+        </footer>
+
       </div>
     </div>
   );
