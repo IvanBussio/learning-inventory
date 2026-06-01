@@ -62,6 +62,9 @@ body {
   font-weight: 800;
 }
 
+.title {
+  color: red !important;
+}
 .subtitle {
   text-align: center;
   color: var(--secondary);
@@ -72,13 +75,20 @@ body {
 
 /* MODO CLARO */
 
+/* MODO CLARO */
+
 .light .title,
 .light .card h2,
 .light table,
-.light th,
-.light td {
+.light th {
   color: #111827;
 }
+
+.light tbody td:not(.stock-low):not(.stock-ok) {
+  color: #111827;
+}
+
+
 
 /* BOTON TEMA */
 
@@ -219,13 +229,13 @@ tbody tr:hover {
 /* STOCK */
 
 .stock-low {
-  color: #ef4444;
-  font-weight: bold;
+  color: #ef4444 !important;
+  font-weight: 700 !important;
 }
 
 .stock-ok {
-  color: #22c55e;
-  font-weight: bold;
+  color: #22c55e !important;
+  font-weight: 700 !important;
 }
 
 /* PARTICULAS */
@@ -320,4 +330,10 @@ tbody tr:hover {
   table {
     min-width: 700px;
   }
+}.light .stock-low {
+  color: #ef4444 !important;
+}
+
+.light .stock-ok {
+  color: #22c55e !important;
 }
