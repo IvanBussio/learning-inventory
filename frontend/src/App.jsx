@@ -7,12 +7,12 @@ function App() {
   const [category, setCategory] = useState("Todas");
   const [darkMode, setDarkMode] = useState(true);
 
-  useEffect(() => {
-    fetch("/api/products")
-      .then((response) => response.json())
-      .then((data) => setProducts(data))
-      .catch((error) => console.error(error));
-  }, []);
+useEffect(() => {
+  fetch("https://learning-inventory-oayr.vercel.app/products")
+    .then((response) => response.json())
+    .then((data) => setProducts(data))
+    .catch((error) => console.error(error));
+}, []);
 
   const categories = [
     "Todas",
