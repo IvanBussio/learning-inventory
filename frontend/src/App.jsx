@@ -127,10 +127,7 @@ function App() {
               {filteredProducts.map((product) => (
                 <tr key={product.id}>
                   <td>{product.name}</td>
-
-                  <td>
-                    € {product.price}
-                  </td>
+                  <td>€ {product.price}</td>
 
                   <td
                     className={
@@ -160,7 +157,6 @@ function App() {
             ASIR Final Project · June 2026
           </p>
         </footer>
-
       </div>
     </div>
   );
