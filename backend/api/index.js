@@ -1,8 +1,17 @@
-const { neon } = require("@neondatabase/serverless");
+const express = require("express");
+const cors = require("cors");
+const sql = require("../lib/db");
 
-const sql = neon(process.env.DATABASE_URL);
+const app = express();
 
-module.exports = async (req, res) => {
+app.use(cors());
+app.use(express.json());
+
+app.get("/ping", (req, res) => {
+  res.json({ ok: true });
+});
+
+app.get("/products", async (req, res) => {
   try {
     const products = await sql`
       SELECT
@@ -17,7 +26,7 @@ module.exports = async (req, res) => {
       ORDER BY p.name;
     `;
 
-    res.status(200).json(products);
+    res.json(products);
   } catch (error) {
     console.error(error);
 
@@ -25,4 +34,6 @@ module.exports = async (req, res) => {
       error: error.message
     });
   }
-};
+});
+
+module.exports = app;
